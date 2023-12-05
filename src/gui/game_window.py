@@ -32,17 +32,17 @@ class GameWindow(QWidget):
 		)
 		game.start_game(zero_first=choice((True, False)))
 
-	def play_with_player(self) -> None:
+	def play_with_player(self, player1_name: str, player2_name: str, time_to_move: int, zero_first: bool) -> None:
 		game = TicTacToeExtended(
 			self, 
 			self.ui.buttons, 
-			Player(os.getlogin()),
-			Player('Second'),
-			time_to_move=30
+			Player(player1_name),
+			Player(player2_name),
+			time_to_move=time_to_move
 		)
-		game.start_game(zero_first=choice((True, False)))
+		game.start_game(zero_first=zero_first)
 
-	def start_server_game(self, server: Server, username: str) -> None:
+	def start_server_game(self, server: Server, player1_name: str, player2_name: str, time_to_move: int, zero_first: bool) -> None:
 		def on_client_request(data: SocketClientData) -> None:
 			field_index, row, column = map(int, data.content)
 			game.fields[field_index].buttons[row*3+column].callback(game.player2)
@@ -50,17 +50,18 @@ class GameWindow(QWidget):
 		def on_client_reconnected(data: SocketClientData):
 			game.player2.name = data.content
 			game.update_message()
-			QTimer.singleShot(300, game.send_data_to_client)
+			QTimer.singleShot(300, game.update_client)
 
 		game = TicTacToeExtended(
 			self,
 			self.ui.buttons,
-			Player(os.getlogin()),
-			Player(username, is_client_socket=True),
+			Player(player1_name),
+			Player(player2_name, is_client_socket=True),
+			time_to_move=time_to_move,
 			server=server
 		)
-		game.start_game(zero_first=False)
-		QTimer.singleShot(300, game.send_data_to_client)
+		game.start_game(zero_first=zero_first)
+		QTimer.singleShot(300, game.update_client)
 
 		server.on_request.connect(on_client_request)
 		server.on_client.connect(on_client_reconnected)

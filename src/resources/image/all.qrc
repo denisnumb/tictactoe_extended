@@ -1,7 +1,9 @@
 <RCC>
   <qresource prefix="/" >
     <file>cross.png</file>
-	<file>zero.png</file>
-	<file>icon.ico</file>
+	  <file>zero.png</file>
+	  <file>icon.ico</file>
+    <file>spinbox_up.png</file>
+    <file>spinbox_down.png</file>
   </qresource>
 </RCC>

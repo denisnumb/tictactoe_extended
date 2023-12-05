@@ -77,7 +77,7 @@ class TicTacToeButton:
 		if not game.parent_game.current_field:
 			game.parent_game.current_field = game
 
-		self.__set_state_used()
+		self.make_move()
 
 		if game_state := game.update_state():
 			game.stop_game(game_state)
@@ -88,7 +88,7 @@ class TicTacToeButton:
 		game.parent_game.current_field = game.parent_game.fields[self.index]
 		game.parent_game.check_next_move()
 
-	def __set_state_used(self) -> None:
+	def make_move(self) -> None:
 		set_ttt_button_style(self, style=win_button_styles[self.game.current_symbol])
 		set_button_icon(self.button, self.game.current_symbol)
 		self.game.field[self.index] = self.game.current_symbol
@@ -246,7 +246,7 @@ class TicTacToeExtended:
 		for playable_field in self.playable_fields:
 			playable_field.enable_all_buttons()
 
-		self.send_data_to_client()
+		self.update_client()
 
 	@property
 	def move_time(self) -> int:
@@ -337,9 +337,9 @@ class TicTacToeExtended:
 
 	def update_message(self):
 		self._window.setWindowTitle(self.get_message())
-		self.send_data_to_client()
+		self.update_client()
 
-	def send_data_to_client(self) -> None:
+	def update_client(self) -> None:
 		if not self._server:
 			return
 
