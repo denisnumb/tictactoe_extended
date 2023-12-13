@@ -315,7 +315,7 @@ class TicTacToeExtended:
 		self.check_next_move()
 
 	def stop_game(self, state: int) -> None:
-		self.disable_all_fields()
+		self.disable_all_fields() 
 		self.game_state = state
 		self.game_over = True
 		self.update_message()
@@ -410,6 +410,13 @@ class TicTacToeExtended:
 		if state == TTTGameStates.HAS_WINNER:
 			self.winner = self.player1 if winner_symbol == x else self.player2
 			
+		x_wins = sum([game.winner_symbol == x for game in self.fields])
+		o_wins = sum([game.winner_symbol == o for game in self.fields])
+
+		if state == TTTGameStates.TIE and x_wins != o_wins and x_wins + o_wins > 0:
+			state = TTTGameStates.HAS_WINNER
+			self.winner = self.player1 if x_wins > o_wins else self.player2
+
 		return state
 
 	def get_message(self) -> str:
