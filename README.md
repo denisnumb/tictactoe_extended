@@ -41,11 +41,11 @@
 
 ![image](https://github.com/denisnumb/tictactoe_extended/assets/108686703/18782ab6-decd-411c-9a4b-b128c398566b)
 
-*победили крестики*
+*Победили крестики*
 
 
 * При отсутствии победного ряда полей побеждает игрок с большим количеством заполненных полей:
 
 ![image](https://github.com/denisnumb/tictactoe_extended/assets/108686703/e76cb306-94ca-40db-b962-98729d9d1bfd)
 
-*победили крестики*
+*Победили крестики*
